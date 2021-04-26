@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,7 +13,20 @@
 		9DF22C7B2637166B002722DA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DF22C792637166B002722DA /* LaunchScreen.storyboard */; };
 		9DF22C862637166C002722DA /* MovieAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF22C852637166C002722DA /* MovieAppTests.swift */; };
 		9DF22C912637166C002722DA /* MovieAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF22C902637166C002722DA /* MovieAppUITests.swift */; };
-		9DF22CB3263717F9002722DA /* MovieListingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF22CB2263717F9002722DA /* MovieListingViewController.swift */; };
+		9DF22CB3263717F9002722DA /* MovieHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF22CB2263717F9002722DA /* MovieHomeViewController.swift */; };
+		9DF22CBB26371BB4002722DA /* MovieHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF22CBA26371BB4002722DA /* MovieHomeViewModel.swift */; };
+		9DF22CC126371BF1002722DA /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF22CC026371BF1002722DA /* WebService.swift */; };
+		9DF22CC626371DEC002722DA /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF22CC526371DEC002722DA /* Movie.swift */; };
+		9DF22CD6263723D1002722DA /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF22CD5263723D1002722DA /* AppConstants.swift */; };
+		9DF22CDC263724F3002722DA /* MovieHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF22CDB263724F3002722DA /* MovieHomeView.swift */; };
+		9DF22CE226372743002722DA /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF22CE126372743002722DA /* UIView+Constraints.swift */; };
+		9DF22CE72637298C002722DA /* UITableView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF22CE62637298C002722DA /* UITableView+Additions.swift */; };
+		9DF22CEC263729AB002722DA /* UICollectionView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF22CEB263729AB002722DA /* UICollectionView+Additions.swift */; };
+		9DF22CF326372A5D002722DA /* MovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF22CF226372A5D002722DA /* MovieViewModel.swift */; };
+		9DF22D0526372E62002722DA /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF22D0326372E62002722DA /* MovieTableViewCell.swift */; };
+		9DF22D0626372E62002722DA /* MovieTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DF22D0426372E62002722DA /* MovieTableViewCell.xib */; };
+		9DF22D0C263736A0002722DA /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 9DF22D0B263736A0002722DA /* Kingfisher */; };
+		9DF22D1826373EED002722DA /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF22D1726373EED002722DA /* MovieDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +59,19 @@
 		9DF22C8C2637166C002722DA /* MovieAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DF22C902637166C002722DA /* MovieAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieAppUITests.swift; sourceTree = "<group>"; };
 		9DF22C922637166C002722DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9DF22CB2263717F9002722DA /* MovieListingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListingViewController.swift; sourceTree = "<group>"; };
+		9DF22CB2263717F9002722DA /* MovieHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieHomeViewController.swift; sourceTree = "<group>"; };
+		9DF22CBA26371BB4002722DA /* MovieHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieHomeViewModel.swift; sourceTree = "<group>"; };
+		9DF22CC026371BF1002722DA /* WebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
+		9DF22CC526371DEC002722DA /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		9DF22CD5263723D1002722DA /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		9DF22CDB263724F3002722DA /* MovieHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieHomeView.swift; sourceTree = "<group>"; };
+		9DF22CE126372743002722DA /* UIView+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
+		9DF22CE62637298C002722DA /* UITableView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Additions.swift"; sourceTree = "<group>"; };
+		9DF22CEB263729AB002722DA /* UICollectionView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Additions.swift"; sourceTree = "<group>"; };
+		9DF22CF226372A5D002722DA /* MovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewModel.swift; sourceTree = "<group>"; };
+		9DF22D0326372E62002722DA /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
+		9DF22D0426372E62002722DA /* MovieTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieTableViewCell.xib; sourceTree = "<group>"; };
+		9DF22D1726373EED002722DA /* MovieDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DF22D0C263736A0002722DA /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +123,9 @@
 		9DF22C6D26371669002722DA /* MovieApp */ = {
 			isa = PBXGroup;
 			children = (
+				9DF22CE02637272F002722DA /* Extensions */,
+				9DF22CD4263723A8002722DA /* Constants */,
+				9DF22CBF26371BDC002722DA /* WebService */,
 				9DF22CAC26371752002722DA /* Modules */,
 				9DF22CAA263716EC002722DA /* Storyboard */,
 				9DF22CA9263716DE002722DA /* Resources */,
@@ -170,6 +199,7 @@
 		9DF22CAD2637175F002722DA /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				9DF22CC526371DEC002722DA /* Movie.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -177,6 +207,8 @@
 		9DF22CAE2637176A002722DA /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				9DF22CF126372A44002722DA /* Cells */,
+				9DF22CF026372A3A002722DA /* Controllers */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -185,6 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				9DF22CB126371786002722DA /* Cells */,
+				9DF22D1326373E4C002722DA /* VC Views */,
 				9DF22CB02637177F002722DA /* Controllers */,
 			);
 			path = Views;
@@ -193,7 +226,8 @@
 		9DF22CB02637177F002722DA /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9DF22CB2263717F9002722DA /* MovieListingViewController.swift */,
+				9DF22CB2263717F9002722DA /* MovieHomeViewController.swift */,
+				9DF22D1726373EED002722DA /* MovieDetailViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -201,8 +235,60 @@
 		9DF22CB126371786002722DA /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				9DF22D0326372E62002722DA /* MovieTableViewCell.swift */,
+				9DF22D0426372E62002722DA /* MovieTableViewCell.xib */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		9DF22CBF26371BDC002722DA /* WebService */ = {
+			isa = PBXGroup;
+			children = (
+				9DF22CC026371BF1002722DA /* WebService.swift */,
+			);
+			path = WebService;
+			sourceTree = "<group>";
+		};
+		9DF22CD4263723A8002722DA /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				9DF22CD5263723D1002722DA /* AppConstants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		9DF22CE02637272F002722DA /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9DF22CE126372743002722DA /* UIView+Constraints.swift */,
+				9DF22CE62637298C002722DA /* UITableView+Additions.swift */,
+				9DF22CEB263729AB002722DA /* UICollectionView+Additions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		9DF22CF026372A3A002722DA /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9DF22CBA26371BB4002722DA /* MovieHomeViewModel.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		9DF22CF126372A44002722DA /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				9DF22CF226372A5D002722DA /* MovieViewModel.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		9DF22D1326373E4C002722DA /* VC Views */ = {
+			isa = PBXGroup;
+			children = (
+				9DF22CDB263724F3002722DA /* MovieHomeView.swift */,
+			);
+			path = "VC Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -221,6 +307,9 @@
 			dependencies = (
 			);
 			name = MovieApp;
+			packageProductDependencies = (
+				9DF22D0B263736A0002722DA /* Kingfisher */,
+			);
 			productName = MovieApp;
 			productReference = 9DF22C6B26371669002722DA /* MovieApp.app */;
 			productType = "com.apple.product-type.application";
@@ -292,6 +381,9 @@
 				Base,
 			);
 			mainGroup = 9DF22C6226371669002722DA;
+			packageReferences = (
+				9DF22D0A263736A0002722DA /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = 9DF22C6C26371669002722DA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -310,6 +402,7 @@
 			files = (
 				9DF22C7B2637166B002722DA /* LaunchScreen.storyboard in Resources */,
 				9DF22C782637166B002722DA /* Assets.xcassets in Resources */,
+				9DF22D0626372E62002722DA /* MovieTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,9 +427,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DF22CBB26371BB4002722DA /* MovieHomeViewModel.swift in Sources */,
 				9DF22C6F26371669002722DA /* AppDelegate.swift in Sources */,
+				9DF22CC626371DEC002722DA /* Movie.swift in Sources */,
+				9DF22CE226372743002722DA /* UIView+Constraints.swift in Sources */,
+				9DF22D1826373EED002722DA /* MovieDetailViewController.swift in Sources */,
 				9DF22C7126371669002722DA /* SceneDelegate.swift in Sources */,
-				9DF22CB3263717F9002722DA /* MovieListingViewController.swift in Sources */,
+				9DF22CE72637298C002722DA /* UITableView+Additions.swift in Sources */,
+				9DF22CD6263723D1002722DA /* AppConstants.swift in Sources */,
+				9DF22CC126371BF1002722DA /* WebService.swift in Sources */,
+				9DF22CDC263724F3002722DA /* MovieHomeView.swift in Sources */,
+				9DF22CB3263717F9002722DA /* MovieHomeViewController.swift in Sources */,
+				9DF22CEC263729AB002722DA /* UICollectionView+Additions.swift in Sources */,
+				9DF22CF326372A5D002722DA /* MovieViewModel.swift in Sources */,
+				9DF22D0526372E62002722DA /* MovieTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -661,6 +765,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9DF22D0A263736A0002722DA /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9DF22D0B263736A0002722DA /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9DF22D0A263736A0002722DA /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9DF22C6326371669002722DA /* Project object */;
 }
