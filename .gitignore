@@ -1,0 +1,6 @@
+Pods/
+xcov_output/
+.DS_Store
+Scribbl.xcworkspace/**/*.xcuserstate
+Scribbl.xcworkspace/**/*.xcbkptlist
+xcuserdata/
