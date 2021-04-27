@@ -51,6 +51,8 @@ class MovieDetailViewController: UIViewController {
         self.movieDetailView.tableView.dataSource = self
         MovieSynopsisTableViewCell.registerWithTable(self.movieDetailView.tableView)
         MovieReviewTableViewCell.registerWithTable(self.movieDetailView.tableView)
+        MovieCastTableViewCell.registerWithTable(self.movieDetailView.tableView)
+        MovieSimilarTableViewCell.registerWithTable(self.movieDetailView.tableView)
     }
 }
 
@@ -72,6 +74,10 @@ extension MovieDetailViewController: UITableViewDataSource, UITableViewDelegate 
                 return cellForSynopsisCell(vm, indexPath: indexPath)
             case .reviewCell(let vm):
                 return cellForReviewCell(vm, indexPath: indexPath)
+            case .castCell(let vm):
+                return cellForCastCell(vm, indexPath: indexPath)
+            case .similarCell(let vm):
+                return cellForSimilarCell(vm, indexPath: indexPath)
         }
     }
     
@@ -92,6 +98,20 @@ extension MovieDetailViewController {
     
     private func cellForReviewCell(_ vm: MovieReviewListViewModel, indexPath: IndexPath) -> MovieReviewTableViewCell {
         let cell = self.movieDetailView.tableView.dequeueReusableCell(withIdentifier: MovieReviewTableViewCell.reuseIdentifier, for: indexPath) as! MovieReviewTableViewCell
+        cell.prepareCell(vm)
+        cell.selectionStyle = .none
+        return cell
+    }
+    
+    private func cellForCastCell(_ vm: MovieCastListViewModel, indexPath: IndexPath) -> MovieCastTableViewCell {
+        let cell = self.movieDetailView.tableView.dequeueReusableCell(withIdentifier: MovieCastTableViewCell.reuseIdentifier, for: indexPath) as! MovieCastTableViewCell
+        cell.prepareCell(vm)
+        cell.selectionStyle = .none
+        return cell
+    }
+    
+    private func cellForSimilarCell(_ vm: MovieSimilarListViewModel, indexPath: IndexPath) -> MovieSimilarTableViewCell {
+        let cell = self.movieDetailView.tableView.dequeueReusableCell(withIdentifier: MovieSimilarTableViewCell.reuseIdentifier, for: indexPath) as! MovieSimilarTableViewCell
         cell.prepareCell(vm)
         cell.selectionStyle = .none
         return cell

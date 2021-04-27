@@ -12,15 +12,18 @@ import Combine
 enum MovieDetailCellType {
     case synopsisCell(_ vm: MovieSynopsisViewModel)
     case reviewCell(_ vm: MovieReviewListViewModel)
+    case castCell(_ vm: MovieCastListViewModel)
+    case similarCell(_ vm: MovieSimilarListViewModel)
 }
 
 class MovieDetailViewModel {
     
     private(set) var movieId: Int
-    private var response: MovieDetailResponse!
+    private var response: MovieDetailResponse = MovieDetailResponse()
     @Published private(set) var dataSource: [MovieDetailCellType] = []
     private var cancellables: Set<AnyCancellable> = []
     private let service = WebService()
+    private let group = DispatchGroup()
     
     init(_ movieId: Int) {
         self.movieId = movieId
@@ -31,6 +34,13 @@ extension MovieDetailViewModel {
     
     func viewDidLoad() {
         self.fetchMovieSynopis()
+        self.fetchReviews()
+        self.fetchCast()
+        self.fetchSimilarMovies()
+        
+        group.notify(queue: .main) {
+            self.prepareDatasource()
+        }
     }
     
     private func fetchMovieSynopis() {
@@ -38,13 +48,13 @@ extension MovieDetailViewModel {
         let urlString = WebServiceConstants.baseURL + "\(movieId)?" + "api_key=\(apiKey)" + "&language=en-US"
         guard let url = URL(string: urlString) else { return }
         let resource = Resource<Synopsis>(url: url)
+        group.enter()
 
         service.load(resource)
             .sink { _ in } receiveValue: { [weak self] (response) in
                 guard let weakSelf = self else { return }
-                weakSelf.response = MovieDetailResponse(synopsis: response)
-                weakSelf.fetchReviews()
-//                weakSelf.prepareDatasource()
+                weakSelf.response.synopsis = response
+                weakSelf.group.leave()
             }
             .store(in: &cancellables)
     }
@@ -52,16 +62,15 @@ extension MovieDetailViewModel {
     private func fetchReviews() {
         
         let urlString = WebServiceConstants.baseURL + "\(movieId)" + WebServiceConstants.movieReviewsAPI + "api_key=\(apiKey)" + "&language=en-US" + "&page=1"
-        print(urlString)
         guard let url = URL(string: urlString) else { return }
         let resource = Resource<MovieReviewResponse>(url: url)
+        group.enter()
 
         service.load(resource)
             .sink { _ in } receiveValue: { [weak self] (response) in
                 guard let weakSelf = self else { return }
                 weakSelf.response.reviews = response.results
-                weakSelf.prepareDatasource()
-                weakSelf.fetchCast()
+                weakSelf.group.leave()
             }
             .store(in: &cancellables)
     }
@@ -69,18 +78,33 @@ extension MovieDetailViewModel {
     private func fetchCast() {
         
         let urlString = WebServiceConstants.baseURL + "\(movieId)" + WebServiceConstants.movieCastAPI + "api_key=\(apiKey)" + "&language=en-US"
-        print(urlString)
-//        guard let url = URL(string: urlString) else { return }
-//        let resource = Resource<MovieReviewResponse>(url: url)
-//
-//        service.load(resource)
-//            .sink { _ in } receiveValue: { [weak self] (response) in
-//                guard let weakSelf = self else { return }
-//                print(response)
-//                weakSelf.response.reviews = response.results
-//                weakSelf.prepareDatasource()
-//            }
-//            .store(in: &cancellables)
+        guard let url = URL(string: urlString) else { return }
+        let resource = Resource<MovieCastResponse>(url: url)
+        group.enter()
+
+        service.load(resource)
+            .sink { _ in } receiveValue: { [weak self] (response) in
+                guard let weakSelf = self else { return }
+                weakSelf.response.cast = response.cast
+                weakSelf.group.leave()
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func fetchSimilarMovies() {
+        
+        let urlString = WebServiceConstants.baseURL + "\(movieId)" + WebServiceConstants.movieSimilarAPI + "api_key=\(apiKey)" + "&language=en-US" + "&page=1"
+        guard let url = URL(string: urlString) else { return }
+        let resource = Resource<MovieListResponse>(url: url)
+        group.enter()
+        
+        service.load(resource)
+            .sink { _ in } receiveValue: { [weak self] (response) in
+                guard let weakSelf = self else { return }
+                weakSelf.response.similarMovies = response.results
+                weakSelf.group.leave()
+            }
+            .store(in: &cancellables)
     }
 }
 
@@ -89,19 +113,36 @@ extension MovieDetailViewModel {
     
     private func prepareDatasource() {
         var preparedDataSource: [MovieDetailCellType] = []
-        preparedDataSource.append(cellTypeForSynopsisCell())
+        if let cell = cellTypeForSynopsisCell() {
+            preparedDataSource.append(cell)
+        }
         preparedDataSource.append(cellTypeForReviewCell())
+        preparedDataSource.append(cellTypeForCastCell())
+        preparedDataSource.append(cellTypeForSimilarMovieCell())
         self.dataSource = preparedDataSource
     }
     
-    private func cellTypeForSynopsisCell() -> MovieDetailCellType {
-        let movieSynopsisVM = MovieSynopsisViewModel(response.synopsis)
-        return MovieDetailCellType.synopsisCell(movieSynopsisVM)
+    private func cellTypeForSynopsisCell() -> MovieDetailCellType? {
+        if let synopsis = response.synopsis {
+            let movieSynopsisVM = MovieSynopsisViewModel(synopsis)
+            return MovieDetailCellType.synopsisCell(movieSynopsisVM)
+        }
+        return nil
     }
     
     private func cellTypeForReviewCell() -> MovieDetailCellType {
         let reviewListVM = MovieReviewListViewModel(self.response.reviews.map { MovieReviewViewModel($0) })
         return MovieDetailCellType.reviewCell(reviewListVM)
+    }
+    
+    private func cellTypeForCastCell() -> MovieDetailCellType {
+        let castListVM = MovieCastListViewModel(self.response.cast.map { MovieCastViewModel($0) })
+        return MovieDetailCellType.castCell(castListVM)
+    }
+    
+    private func cellTypeForSimilarMovieCell() -> MovieDetailCellType {
+        let similarListVM = MovieSimilarListViewModel(self.response.similarMovies.map { MovieViewModel($0) })
+        return MovieDetailCellType.similarCell(similarListVM)
     }
     
     func cellTypeForIndex(_ index: Int) -> MovieDetailCellType {

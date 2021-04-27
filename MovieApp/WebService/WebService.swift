@@ -17,6 +17,7 @@ struct WebServiceConstants {
     static let movieListAPI = "now_playing?"
     static let movieReviewsAPI = "/reviews?"
     static let movieCastAPI = "/credits?"
+    static let movieSimilarAPI = "/similar?"
 }
 
 class WebService {

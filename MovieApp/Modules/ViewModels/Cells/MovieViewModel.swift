@@ -49,7 +49,8 @@ extension MovieViewModel {
     }
     
     var posterImageURL: URL? {
-        return URL(string: "https://image.tmdb.org/t/p/w500" + self.movie.poster_path) ?? nil
+        guard let posterPath = self.movie.poster_path else { return nil }
+        return URL(string: "https://image.tmdb.org/t/p/w500" + posterPath) ?? nil
     }
 }
 

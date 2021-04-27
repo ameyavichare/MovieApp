@@ -17,14 +17,16 @@ struct Movie: Decodable {
     let id: Int
     let original_title: String
     let overview: String
-    let poster_path: String
+    let poster_path: String?
     let release_date: String
 }
 
 //MARK:- Hold various types of movie detail data
 struct MovieDetailResponse {
-    let synopsis: Synopsis
+    var synopsis: Synopsis? = nil
     var reviews: [Review] = []
+    var cast: [Cast] = []
+    var similarMovies: [Movie] = []
 }
 
 struct Synopsis: Decodable {
@@ -65,8 +67,9 @@ struct MovieCastResponse: Decodable {
 
 struct Cast: Decodable {
     
-    let id: String
+    let id: Int
     let name: String
     let character: String
-    let profile_path: String
+    let profile_path: String?
 }
+
