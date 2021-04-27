@@ -13,8 +13,10 @@ struct Resource<T: Decodable> {
 }
 
 struct WebServiceConstants {
-    static let baseURL = "https://api.themoviedb.org"
-    static let movieListAPI = "/3/movie/now_playing?"
+    static let baseURL = "https://api.themoviedb.org/3/movie/"
+    static let movieListAPI = "now_playing?"
+    static let movieReviewsAPI = "/reviews?"
+    static let movieCastAPI = "/credits?"
 }
 
 class WebService {

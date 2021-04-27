@@ -25,10 +25,10 @@ class MovieHomeViewModel: ObservableObject {
 extension MovieHomeViewModel {
     
     func viewDidLoad() {
-        self.getMovieList()
+        self.fetchMovies()
     }
     
-    private func getMovieList() {
+    private func fetchMovies() {
         
         let urlString = WebServiceConstants.baseURL + WebServiceConstants.movieListAPI + "api_key=\(apiKey)" + "&language=en-US" + "&page=1"
         guard let url = URL(string: urlString) else { return }

@@ -16,9 +16,9 @@ class MovieHomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        vm.viewDidLoad()
         self.setupUI()
         self.bindVM()
+        self.vm.viewDidLoad()
     }
     
     //MARK:- Bind VM
@@ -31,11 +31,11 @@ class MovieHomeViewController: UIViewController {
             }
             .store(in: &cancellables)
         
-        self.vm.movieChoosed.sink { [weak self] (vm) in
-            guard let weakSelf = self else { return }
-            print(vm.id, "movie pressed")
-            weakSelf.showMovieDetail()
-        }
+        self.vm.movieChoosed
+            .sink { [weak self] (vm) in
+                guard let weakSelf = self else { return }
+                weakSelf.pushMovieDetail(with: vm)
+            }
             .store(in: &cancellables)
     }
     
@@ -91,7 +91,9 @@ extension MovieHomeViewController {
 //MARK:- Routing
 extension MovieHomeViewController {
     
-    private func showMovieDetail() {
-        self.navigationController?.pushViewController(MovieDetailViewController(), animated: true)
+    private func pushMovieDetail(with vm: MovieViewModel) {
+        let movieDetailVC = MovieDetailViewController()
+        movieDetailVC.prepareVC(vm)
+        self.navigationController?.pushViewController(movieDetailVC, animated: true)
     }
 }
