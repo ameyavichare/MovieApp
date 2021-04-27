@@ -84,8 +84,23 @@ extension MovieHomeViewModel {
     }
     
     func searchMovies(with searchText: String) {
-        self.filteredDataSource = self.dataSource.filter{ (item: MovieViewModel) -> Bool in
-            return item.name.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+        self.filteredDataSource = self.searchMovies(self.dataSource, with: searchText)
+    }
+    
+    private func searchMovies(_ movies: [MovieViewModel], with searchText: String) -> [MovieViewModel] {
+
+        let words: [String] = searchText.components(separatedBy: " ")
+        var regex: String = "^"
+        words.forEach { w in
+            regex += "(?=.*\\b\(w))"
+        }
+        regex += ".*$"
+        
+        return movies.filter { (movie) -> Bool in
+            if let _ = movie.name.range(of: regex, options: [.regularExpression, .caseInsensitive]) {
+                return true
+            }
+            return false
         }
     }
 }

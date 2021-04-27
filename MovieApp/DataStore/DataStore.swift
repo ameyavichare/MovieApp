@@ -17,8 +17,8 @@ final class DataStore {
         guard var movies = retrieveStoredMovies() else { return }
         if isMovieAlreadyStored(movies, movieToStore: vm.movie) { return }
         
-        movies.insert(vm.movie, at: 0)
         handleMaxCacheLimit(&movies)
+        movies.insert(vm.movie, at: 0)
         
         let archiver = NSKeyedArchiver(requiringSecureCoding: true)
         do {
@@ -49,7 +49,7 @@ final class DataStore {
     }
     
     func retrieveStoredMovies() -> [Movie]? {
-        guard let nsData = NSData(contentsOf: Movie.ArchiveURL) else { return nil }
+        guard let nsData = NSData(contentsOf: Movie.ArchiveURL) else { return [] }
         let data = Data(referencing:nsData)
         let unarchiver = NSKeyedUnarchiver(forReadingWith: data)
         unarchiver.decodingFailurePolicy = .setErrorAndReturn
