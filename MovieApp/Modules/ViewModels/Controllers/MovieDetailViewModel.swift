@@ -116,9 +116,15 @@ extension MovieDetailViewModel {
         if let cell = cellTypeForSynopsisCell() {
             preparedDataSource.append(cell)
         }
-        preparedDataSource.append(cellTypeForReviewCell())
-        preparedDataSource.append(cellTypeForCastCell())
-        preparedDataSource.append(cellTypeForSimilarMovieCell())
+        if let cell = cellTypeForReviewCell() {
+            preparedDataSource.append(cell)
+        }
+        if let cell = cellTypeForCastCell() {
+            preparedDataSource.append(cell)
+        }
+        if let cell = cellTypeForSimilarMovieCell() {
+            preparedDataSource.append(cell)
+        }
         self.dataSource = preparedDataSource
     }
     
@@ -130,19 +136,28 @@ extension MovieDetailViewModel {
         return nil
     }
     
-    private func cellTypeForReviewCell() -> MovieDetailCellType {
-        let reviewListVM = MovieReviewListViewModel(self.response.reviews.map { MovieReviewViewModel($0) })
-        return MovieDetailCellType.reviewCell(reviewListVM)
+    private func cellTypeForReviewCell() -> MovieDetailCellType? {
+        if self.response.reviews.count > 0 {
+            let reviewListVM = MovieReviewListViewModel(self.response.reviews.map { MovieReviewViewModel($0) })
+            return MovieDetailCellType.reviewCell(reviewListVM)
+        }
+        return nil
     }
     
-    private func cellTypeForCastCell() -> MovieDetailCellType {
-        let castListVM = MovieCastListViewModel(self.response.cast.map { MovieCastViewModel($0) })
-        return MovieDetailCellType.castCell(castListVM)
+    private func cellTypeForCastCell() -> MovieDetailCellType? {
+        if self.response.cast.count > 0 {
+            let castListVM = MovieCastListViewModel(self.response.cast.map { MovieCastViewModel($0) })
+            return MovieDetailCellType.castCell(castListVM)
+        }
+        return nil
     }
     
-    private func cellTypeForSimilarMovieCell() -> MovieDetailCellType {
-        let similarListVM = MovieSimilarListViewModel(self.response.similarMovies.map { MovieViewModel($0) })
-        return MovieDetailCellType.similarCell(similarListVM)
+    private func cellTypeForSimilarMovieCell() -> MovieDetailCellType? {
+        if self.response.similarMovies.count > 0 {
+            let similarListVM = MovieSimilarListViewModel(self.response.similarMovies.map { MovieViewModel($0) })
+            return MovieDetailCellType.similarCell(similarListVM)
+        }
+        return nil
     }
     
     func cellTypeForIndex(_ index: Int) -> MovieDetailCellType {
