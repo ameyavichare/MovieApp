@@ -13,6 +13,8 @@ class MovieHomeViewModel: ObservableObject {
     private var cancellables: Set<AnyCancellable> = []
     private var response: MovieListResponse!
     @Published private(set) var dataSource: [MovieViewModel] = []
+    @Published private(set) var filteredDataSource: [MovieViewModel] = []
+    private(set) var isSearching = Bool()
     
     var movieChoosed: AnyPublisher<MovieViewModel, Never> {
         movieChoosedSubject.eraseToAnyPublisher()
@@ -21,7 +23,7 @@ class MovieHomeViewModel: ObservableObject {
     private let movieChoosedSubject = PassthroughSubject<MovieViewModel, Never>()
 }
 
-//MARK:- Initial API Call
+//MARK:- Initial API Calls
 extension MovieHomeViewModel {
     
     func viewDidLoad() {
@@ -54,6 +56,7 @@ extension MovieHomeViewModel {
             vm.movieSelected.sink { _ in } receiveValue: { [weak self] (vm) in
                 guard let weakSelf = self else { return }
                 weakSelf.movieChoosedSubject.send(vm)
+                weakSelf.storeMovie(vm)
             }
             .store(in: &cancellables)
             return vm
@@ -61,7 +64,7 @@ extension MovieHomeViewModel {
     }
     
     func vmAtIndex(_ index: Int) -> MovieViewModel {
-        dataSource[index]
+        isSearching ? filteredDataSource[index] : dataSource[index]
     }
     
     var numberOfSections: Int {
@@ -69,6 +72,29 @@ extension MovieHomeViewModel {
     }
     
     func numberOfRowsInSection(_ section: Int) -> Int {
-        self.dataSource.count
+        isSearching ? self.filteredDataSource.count : self.dataSource.count
     }
 }
+
+//MARK:- Search handling
+extension MovieHomeViewModel {
+    
+    func setIsSearching(as isSearching: Bool) {
+        self.isSearching = isSearching
+    }
+    
+    func searchMovies(with searchText: String) {
+        self.filteredDataSource = self.dataSource.filter{ (item: MovieViewModel) -> Bool in
+            return item.name.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+        }
+    }
+}
+
+extension MovieHomeViewModel {
+    
+    func storeMovie(_ vm: MovieViewModel) {
+        if !self.isSearching { return }
+        DataStore.shared.storeMovie(vm)
+    }
+}
+

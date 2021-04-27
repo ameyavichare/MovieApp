@@ -10,7 +10,7 @@ import Combine
 
 struct MovieViewModel {
     
-    private let movie: Movie
+    private(set) var movie: Movie
     
     var movieSelected: AnyPublisher<MovieViewModel, Never> {
         return self.movieSelectedSubject.eraseToAnyPublisher()

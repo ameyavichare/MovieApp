@@ -31,6 +31,14 @@ class MovieHomeViewController: UIViewController {
             }
             .store(in: &cancellables)
         
+        self.vm.$filteredDataSource
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] (dataSource) in
+                guard let weakSelf = self else { return }
+                weakSelf.movieHomeView.tableView.reloadData()
+            }
+            .store(in: &cancellables)
+        
         self.vm.movieChoosed
             .sink { [weak self] (vm) in
                 guard let weakSelf = self else { return }
@@ -42,12 +50,23 @@ class MovieHomeViewController: UIViewController {
     //MARK:- VC Setup
     private func setupUI() {
         self.configureTableView()
+        self.configureSearch()
     }
     
     private func configureTableView() {
         self.movieHomeView.tableView.delegate = self
         self.movieHomeView.tableView.dataSource = self
         MovieTableViewCell.registerWithTable(self.movieHomeView.tableView)
+    }
+    
+    private func configureSearch() {
+        self.movieHomeView.searchController.searchResultsUpdater = self
+        self.movieHomeView.searchController.searchBar.delegate = self
+        self.definesPresentationContext = true
+        
+        addChild(self.movieHomeView.searchViewController)
+        self.movieHomeView.searchViewController.didMove(toParent: self)
+        view.bringSubviewToFront(self.movieHomeView.searchViewController.view)
     }
     
     override func loadView() {
@@ -64,7 +83,7 @@ extension MovieHomeViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        self.vm.numberOfRowsInSection(section)
+        return self.vm.numberOfRowsInSection(section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -74,6 +93,12 @@ extension MovieHomeViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let movieVM = self.vm.vmAtIndex(indexPath.row)
+        self.vm.storeMovie(movieVM)
+        self.pushMovieDetail(with: movieVM)
     }
 }
 
@@ -85,6 +110,38 @@ extension MovieHomeViewController {
         cell.prepareCell(vm)
         cell.selectionStyle = .none
         return cell
+    }
+}
+
+//MARK:- Search delegates
+extension MovieHomeViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {}
+}
+
+extension MovieHomeViewController: UISearchBarDelegate {
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        if !self.vm.isSearching {
+            self.movieHomeView.searchViewController.view.isHidden = false
+        }
+        self.vm.setIsSearching(as: true)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard let text = searchBar.text else { return }
+        if text.count > 0 {
+            self.movieHomeView.searchViewController.view.isHidden = true
+        }
+        else {
+            self.movieHomeView.searchViewController.view.isHidden = false
+        }
+        self.vm.searchMovies(with: text)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.vm.setIsSearching(as: false)
+        self.movieHomeView.tableView.reloadData()
+        self.movieHomeView.searchViewController.view.isHidden = true
     }
 }
 

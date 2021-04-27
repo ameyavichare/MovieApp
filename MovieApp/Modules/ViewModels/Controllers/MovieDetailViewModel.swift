@@ -16,7 +16,7 @@ enum MovieDetailCellType {
     case similarCell(_ vm: MovieSimilarListViewModel)
 }
 
-class MovieDetailViewModel {
+class MovieDetailViewModel: ObservableObject {
     
     private(set) var movieId: Int
     private var response: MovieDetailResponse = MovieDetailResponse()
