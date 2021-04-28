@@ -183,7 +183,6 @@
 		9DF22C6D26371669002722DA /* MovieApp */ = {
 			isa = PBXGroup;
 			children = (
-				9DF22C7C2637166B002722DA /* Info.plist */,
 				9DF22CE02637272F002722DA /* Extensions */,
 				9D400F7C2638286E001E0584 /* DataStore */,
 				9DF22CD4263723A8002722DA /* Constants */,
@@ -193,6 +192,7 @@
 				9DF22CA9263716DE002722DA /* Resources */,
 				9DF22CA8263716D5002722DA /* SceneDelegate */,
 				9DF22CA7263716CC002722DA /* AppDelegate */,
+				9DF22C7C2637166B002722DA /* Info.plist */,
 			);
 			path = MovieApp;
 			sourceTree = "<group>";

@@ -7,6 +7,7 @@
 
 import UIKit
 
+///Responsible for the MovieDetailViewController view
 class MovieDetailView: UIView {
 
     private(set) var tableView: UITableView!

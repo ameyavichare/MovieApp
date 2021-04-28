@@ -10,10 +10,12 @@ import Combine
 
 class MovieDetailViewController: UIViewController {
     
-    private var vm: MovieDetailViewModel!
-    private var movieDetailView = MovieDetailView()
-    private var cancellables: Set<AnyCancellable> = []
+    //MARK:- Properties
+    private var vm: MovieDetailViewModel! ///View Model
+    private var movieDetailView = MovieDetailView() ///View
+    private var cancellables: Set<AnyCancellable> = [] ///Used for storing the
 
+    //MARK:- Overriding Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         self.bindVM()
@@ -21,17 +23,20 @@ class MovieDetailViewController: UIViewController {
         self.vm.viewDidLoad()
     }
     
-    func prepareVC(_ vm: MovieViewModel) {
-        self.vm = MovieDetailViewModel(vm.id)
-    }
-    
     override func loadView() {
         super.loadView()
         self.view = movieDetailView
     }
     
+    //MARK:- Prepare VC
+    ///Data from previous VC
+    func prepareVC(_ vm: MovieViewModel) {
+        self.vm = MovieDetailViewModel(vm.id)
+    }
+    
+    //MARK:- Bind VM
     private func bindVM() {
-        
+        ///When the dataSource in VM changes, reload the tableView
         self.vm.$dataSource
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (dataSource) in

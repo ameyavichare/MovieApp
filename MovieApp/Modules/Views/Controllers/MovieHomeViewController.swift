@@ -10,10 +10,12 @@ import Combine
 
 class MovieHomeViewController: UIViewController {
     
-    private let vm = MovieHomeViewModel()
-    private let movieHomeView = MovieHomeView()
-    private var cancellables: Set<AnyCancellable> = []
+    //MARK:- Properties
+    private let vm = MovieHomeViewModel() ///View Model
+    private let movieHomeView = MovieHomeView() ///View
+    private var cancellables: Set<AnyCancellable> = [] ///Used for storing the bindings
 
+    //MARK:- Overriding Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
@@ -21,8 +23,14 @@ class MovieHomeViewController: UIViewController {
         self.vm.viewDidLoad()
     }
     
+    override func loadView() {
+        super.loadView()
+        self.view = movieHomeView
+    }
+    
     //MARK:- Bind VM
     private func bindVM() {
+        ///When the dataSource in VM changes, reload the tableView
         self.vm.$dataSource
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (dataSource) in
@@ -31,6 +39,7 @@ class MovieHomeViewController: UIViewController {
             }
             .store(in: &cancellables)
         
+        ///When the filteredDataSource in VM changes, reload the tableView
         self.vm.$filteredDataSource
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (dataSource) in
@@ -39,6 +48,7 @@ class MovieHomeViewController: UIViewController {
             }
             .store(in: &cancellables)
         
+        ///When the user has tapped on the book button in movie list, push the MovieDetailVC
         self.vm.movieChoosed
             .sink { [weak self] (vm) in
                 guard let weakSelf = self else { return }
@@ -68,11 +78,6 @@ class MovieHomeViewController: UIViewController {
         self.movieHomeView.searchViewController.didMove(toParent: self)
         view.bringSubviewToFront(self.movieHomeView.searchViewController.view)
     }
-    
-    override func loadView() {
-        super.loadView()
-        self.view = movieHomeView
-    }
 }
 
 //MARK:- TableView datasource & delegate
@@ -95,6 +100,7 @@ extension MovieHomeViewController: UITableViewDataSource, UITableViewDelegate {
         UITableView.automaticDimension
     }
     
+    ///When the movie list cell is tapped, make a call to store movie in VM, VM checks if the user is searching or not and takes relevant action. Push the MovieDetailVC and pass the movieVM.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let movieVM = self.vm.vmAtIndex(indexPath.row)
         self.vm.storeMovie(movieVM)
@@ -120,6 +126,7 @@ extension MovieHomeViewController: UISearchResultsUpdating {
 
 extension MovieHomeViewController: UISearchBarDelegate {
     
+    ///Only hide the SearchViewController (Recent Search Screen) if the user is not searching. Also set isSearching to true.
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         if !self.vm.isSearching {
             self.movieHomeView.searchViewController.view.isHidden = false
@@ -127,6 +134,7 @@ extension MovieHomeViewController: UISearchBarDelegate {
         self.vm.setIsSearching(as: true)
     }
     
+    ///If text count is 0, show SearchViewController (Recent Search Screen), else show the filteredList of movies. Make a call to searchMovies in VM to modify the filteredDataSource.
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard let text = searchBar.text else { return }
         if text.count > 0 {
@@ -138,6 +146,7 @@ extension MovieHomeViewController: UISearchBarDelegate {
         self.vm.searchMovies(with: text)
     }
     
+    ///Relevant actions once searching is ended.
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         self.vm.setIsSearching(as: false)
         self.movieHomeView.tableView.reloadData()
@@ -147,7 +156,6 @@ extension MovieHomeViewController: UISearchBarDelegate {
 
 //MARK:- Routing
 extension MovieHomeViewController {
-    
     private func pushMovieDetail(with vm: MovieViewModel) {
         let movieDetailVC = MovieDetailViewController()
         movieDetailVC.prepareVC(vm)

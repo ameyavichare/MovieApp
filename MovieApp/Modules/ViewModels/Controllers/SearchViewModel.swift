@@ -10,15 +10,15 @@ import Combine
 
 class SearchViewModel: ObservableObject {
     
-    @Published private(set) var dataSource: [MovieViewModel] = []
+    @Published private(set) var dataSource: [MovieViewModel] = [] /// DataSource for the table
     let sectionTitle = "Recently Searched"
 }
 
 //MARK:- Prepare datasource
 extension SearchViewModel {
     
+    ///Prepares the datasource for the tableview
     func prepareDatasource() {
-        
         guard let storedMovies = DataStore.shared.retrieveStoredMovies() else { return }
         self.dataSource = storedMovies.map { MovieViewModel($0) }
     }

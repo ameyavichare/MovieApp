@@ -10,12 +10,13 @@ import Combine
 
 class MovieHomeViewModel: ObservableObject {
     
-    private var cancellables: Set<AnyCancellable> = []
-    private var response: MovieListResponse!
-    @Published private(set) var dataSource: [MovieViewModel] = []
-    @Published private(set) var filteredDataSource: [MovieViewModel] = []
-    private(set) var isSearching = Bool()
+    private var cancellables: Set<AnyCancellable> = [] ///Used for storing the bindings
+    private var response: MovieListResponse! ///Stores the response from the api
+    @Published private(set) var dataSource: [MovieViewModel] = [] /// DataSource for the table when user is not searching
+    @Published private(set) var filteredDataSource: [MovieViewModel] = [] /// DataSource for the table when user is searching
+    private(set) var isSearching = Bool() ///State track whether user is searching or not
     
+    ///Passthrough subject to pass data when the book button in movie list is pressed
     var movieChoosed: AnyPublisher<MovieViewModel, Never> {
         movieChoosedSubject.eraseToAnyPublisher()
     }
@@ -26,10 +27,12 @@ class MovieHomeViewModel: ObservableObject {
 //MARK:- Initial API Calls
 extension MovieHomeViewModel {
     
+    ///viewDidLoad has been called on the VC, make an api call to fetch movies to display
     func viewDidLoad() {
         self.fetchMovies()
     }
     
+    ///Make an api call using a resource which expects a MovieListResponse in return
     private func fetchMovies() {
         
         let urlString = WebServiceConstants.baseURL + WebServiceConstants.movieListAPI + "api_key=\(apiKey)" + "&language=en-US" + "&page=1"
@@ -50,6 +53,7 @@ extension MovieHomeViewModel {
 //MARK:- Prepare datasource
 extension MovieHomeViewModel {
     
+    ///Prepares the datasource for the tableview
     private func prepareDatasource() {
         self.dataSource = self.response.results.map {
             let vm = MovieViewModel($0)
@@ -87,13 +91,16 @@ extension MovieHomeViewModel {
         self.filteredDataSource = self.searchMovies(self.dataSource, with: searchText)
     }
     
+    ///Takes in an array of movies, and search text and returns the ones that match using a regex containing word boundary and positive lookahead
     private func searchMovies(_ movies: [MovieViewModel], with searchText: String) -> [MovieViewModel] {
-
         let words: [String] = searchText.components(separatedBy: " ")
+        ///Beginning
         var regex: String = "^"
+        ///For each word, append to regex
         words.forEach { w in
             regex += "(?=.*\\b\(w))"
         }
+        ///End
         regex += ".*$"
         
         return movies.filter { (movie) -> Bool in
@@ -105,11 +112,12 @@ extension MovieHomeViewModel {
     }
 }
 
+//MARK:- Data Store handling
 extension MovieHomeViewModel {
-    
+    ///Store a movie after the user has tapped on a movie, but only if isSearching is true
     func storeMovie(_ vm: MovieViewModel) {
         if !self.isSearching { return }
-        DataStore.shared.storeMovie(vm)
+        DataStore.shared.storeMovieRequest(vm.movie)
     }
 }
 

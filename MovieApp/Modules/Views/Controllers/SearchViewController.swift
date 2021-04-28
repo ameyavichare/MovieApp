@@ -10,15 +10,16 @@ import Combine
 
 class SearchViewController: UIViewController {
     
-    private let vm = SearchViewModel()
-    private let searchView = SearchView()
-    private var cancellables: Set<AnyCancellable> = []
+    //MARK:- Properties
+    private let vm = SearchViewModel() ///View Model
+    private let searchView = SearchView() ///View
+    private var cancellables: Set<AnyCancellable> = [] ///Used for storing the bindings
 
+    //MARK:- Overriding Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         self.bindVM()
         self.setupUI()
-//        vm.prepareDatasource()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -26,8 +27,14 @@ class SearchViewController: UIViewController {
         vm.prepareDatasource()
     }
     
+    override func loadView() {
+        super.loadView()
+        self.view = searchView
+    }
+    
     //MARK:- Bind VM
     private func bindVM() {
+        ///When the dataSource in VM changes, reload the tableView
         self.vm.$dataSource
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (dataSource) in
@@ -46,11 +53,6 @@ class SearchViewController: UIViewController {
         self.searchView.tableView.delegate = self
         self.searchView.tableView.dataSource = self
         RecentSearchTableViewCell.registerWithTable(self.searchView.tableView)
-    }
-    
-    override func loadView() {
-        super.loadView()
-        self.view = searchView
     }
 }
 
@@ -74,6 +76,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         UITableView.automaticDimension
     }
     
+    ///When the movie list cell is tapped, push the MovieDetailVC and pass the movieVM.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let movieVM = self.vm.vmAtIndex(indexPath.row)
         self.pushMovieDetail(with: movieVM)
@@ -97,7 +100,6 @@ extension SearchViewController {
 
 //MARK:- Routing
 extension SearchViewController {
-    
     private func pushMovieDetail(with vm: MovieViewModel) {
         let movieDetailVC = MovieDetailViewController()
         movieDetailVC.prepareVC(vm)

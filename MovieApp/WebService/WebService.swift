@@ -8,10 +8,12 @@
 import Foundation
 import Combine
 
+///A generic resource
 struct Resource<T: Decodable> {
     let url: URL
 }
 
+///Api endpoints & base url
 struct WebServiceConstants {
     static let baseURL = "https://api.themoviedb.org/3/movie/"
     static let movieListAPI = "now_playing?"
@@ -20,6 +22,7 @@ struct WebServiceConstants {
     static let movieSimilarAPI = "/similar?"
 }
 
+///Service for making api calls
 class WebService {
     
     func load<T>(_ resource: Resource<T>) -> AnyPublisher<T, Error> {

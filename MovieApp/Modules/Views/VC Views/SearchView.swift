@@ -7,6 +7,7 @@
 
 import UIKit
 
+///Responsible for the SearchViewController view
 class SearchView: UIView {
     
     private(set) var tableView: UITableView!

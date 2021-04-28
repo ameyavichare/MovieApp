@@ -7,6 +7,7 @@
 
 import UIKit
 
+///Responsible for the MovieHomeViewController view
 class MovieHomeView: UIView {
     
     private(set) var tableView: UITableView!

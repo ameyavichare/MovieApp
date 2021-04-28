@@ -9,7 +9,7 @@ import UIKit
 
 extension UIView {
 
-    func constrainToEdges(_ subview: UIView, topConstant: CGFloat = 0, bottomConstant: CGFloat = 0, leadingConstant: CGFloat = 0, trailingContraint: CGFloat = 0) {
+    func constrainToEdges(_ subview: UIView) {
         subview.translatesAutoresizingMaskIntoConstraints = false
 
         let topContraint = NSLayoutConstraint(
@@ -19,7 +19,7 @@ extension UIView {
             toItem: self,
             attribute: .topMargin,
             multiplier: 1.0,
-            constant: topConstant
+            constant: 0
         )
 
         let bottomConstraint = NSLayoutConstraint(
@@ -29,7 +29,7 @@ extension UIView {
             toItem: self,
             attribute: .bottomMargin,
             multiplier: 1.0,
-            constant: bottomConstant
+            constant: 0
         )
 
         let leadingContraint = NSLayoutConstraint(
@@ -39,7 +39,7 @@ extension UIView {
             toItem: self,
             attribute: .leading,
             multiplier: 1.0,
-            constant: leadingConstant
+            constant: 0
         )
 
         let trailingContraint = NSLayoutConstraint(
@@ -49,7 +49,7 @@ extension UIView {
             toItem: self,
             attribute: .trailing,
             multiplier: 1.0,
-            constant: trailingContraint
+            constant: 0
         )
 
         addConstraints([

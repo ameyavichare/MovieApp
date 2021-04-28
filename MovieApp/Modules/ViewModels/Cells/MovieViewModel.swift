@@ -12,6 +12,7 @@ struct MovieViewModel {
     
     private(set) var movie: Movie
     
+    ///Passthrough subject to pass data when the book button in movie list is pressed
     var movieSelected: AnyPublisher<MovieViewModel, Never> {
         return self.movieSelectedSubject.eraseToAnyPublisher()
     }
@@ -54,6 +55,7 @@ extension MovieViewModel {
     }
 }
 
+//MARK:- Actions
 extension MovieViewModel {
     
     func bookPressed() {

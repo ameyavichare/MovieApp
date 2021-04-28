@@ -18,20 +18,22 @@ enum MovieDetailCellType {
 
 class MovieDetailViewModel: ObservableObject {
     
-    private(set) var movieId: Int
-    private var response: MovieDetailResponse = MovieDetailResponse()
-    @Published private(set) var dataSource: [MovieDetailCellType] = []
-    private var cancellables: Set<AnyCancellable> = []
-    private let service = WebService()
-    private let group = DispatchGroup()
+    private(set) var movieId: Int ///ID of the movie for which the detail is being shown
+    private var response: MovieDetailResponse = MovieDetailResponse() ///Stores the response from the api
+    @Published private(set) var dataSource: [MovieDetailCellType] = [] /// DataSource for the table
+    private var cancellables: Set<AnyCancellable> = [] ///Used for storing the bindings
+    private let service = WebService() ///Service for making api calls
+    private let group = DispatchGroup() ///Dispatch Group for getting notified when all the api calls have finished
     
     init(_ movieId: Int) {
         self.movieId = movieId
     }
 }
 
+//MARK:- Initial API Calls
 extension MovieDetailViewModel {
     
+    ///viewDidLoad has been called on the VC, make relevant api calls, get notified when all have finished
     func viewDidLoad() {
         self.fetchMovieSynopis()
         self.fetchReviews()
@@ -43,6 +45,7 @@ extension MovieDetailViewModel {
         }
     }
     
+    ///Make an api call using a resource which expects a Synopsis in return
     private func fetchMovieSynopis() {
         
         let urlString = WebServiceConstants.baseURL + "\(movieId)?" + "api_key=\(apiKey)" + "&language=en-US"
@@ -59,6 +62,7 @@ extension MovieDetailViewModel {
             .store(in: &cancellables)
     }
     
+    ///Make an api call using a resource which expects a MovieReviewResponse in return
     private func fetchReviews() {
         
         let urlString = WebServiceConstants.baseURL + "\(movieId)" + WebServiceConstants.movieReviewsAPI + "api_key=\(apiKey)" + "&language=en-US" + "&page=1"
@@ -75,6 +79,7 @@ extension MovieDetailViewModel {
             .store(in: &cancellables)
     }
     
+    ///Make an api call using a resource which expects a MovieCastResponse in return
     private func fetchCast() {
         
         let urlString = WebServiceConstants.baseURL + "\(movieId)" + WebServiceConstants.movieCastAPI + "api_key=\(apiKey)" + "&language=en-US"
@@ -91,6 +96,7 @@ extension MovieDetailViewModel {
             .store(in: &cancellables)
     }
     
+    ///Make an api call using a resource which expects a MovieListResponse in return
     private func fetchSimilarMovies() {
         
         let urlString = WebServiceConstants.baseURL + "\(movieId)" + WebServiceConstants.movieSimilarAPI + "api_key=\(apiKey)" + "&language=en-US" + "&page=1"
@@ -111,6 +117,7 @@ extension MovieDetailViewModel {
 //MARK:- Prepare datasource
 extension MovieDetailViewModel {
     
+    ///Prepares the datasource for the tableview
     private func prepareDatasource() {
         var preparedDataSource: [MovieDetailCellType] = []
         if let cell = cellTypeForSynopsisCell() {
