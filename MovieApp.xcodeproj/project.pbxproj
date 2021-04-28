@@ -74,7 +74,7 @@
 
 /* Begin PBXFileReference section */
 		9D400F1B2637D68A001E0584 /* MovieDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailViewModel.swift; sourceTree = "<group>"; };
-		9D400F202637DBBB001E0584 /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = SOURCE_ROOT; };
+		9D400F202637DBBB001E0584 /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MovieDetailView.swift; path = "MovieApp/Modules/Views/VC Views/MovieDetailView.swift"; sourceTree = SOURCE_ROOT; };
 		9D400F252637DC9F001E0584 /* MovieSynopsisViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSynopsisViewModel.swift; sourceTree = "<group>"; };
 		9D400F2A2637E07E001E0584 /* MovieSynopsisTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSynopsisTableViewCell.swift; sourceTree = "<group>"; };
 		9D400F2B2637E07E001E0584 /* MovieSynopsisTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieSynopsisTableViewCell.xib; sourceTree = "<group>"; };
